@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ topic.title }} - SilenChat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ topic.title }}</h1>
+        <p>Created by: {{ topic.author.username }}</p>
+        <p>Created at: {{ topic.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        <hr>
+        <div class="content">
+            {{ topic.content | safe }}
+        </div>
+        <hr>
+        <h3>Comments</h3>
+        {% for comment in topic.comments %}
+            <div class="comment">
+                <p>Comment by: {{ comment.author.username }}</p>
+                <p>Commented at: {{ comment.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p>{{ comment.content | safe }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+        {% if current_user.is_authenticated %}
+            <h4>Add Comment</h4>
+            <form method="POST">
+                <div class="form-group">
+                    <textarea name="content" rows="5" class="form-control" placeholder="Write your comment here" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Comment</button>
+            </form>
+        {% else %}
+            <p class="login-message">Please <a href="{{ url_for('login') }}">log in</a> to add comments.</p>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+</body>
+</html>
