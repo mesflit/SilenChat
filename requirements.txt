@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+markdown
+Flask-Markdown==0.3
+Flask-Misaka
+flask-socketio
